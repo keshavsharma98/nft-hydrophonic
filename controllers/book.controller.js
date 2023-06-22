@@ -2,6 +2,7 @@ const postgre = require('../database')
 const bookController = {
     getAll: async(req, res) => {
         try {
+            console.log("INSIDEEEE!!!!!!!!")
             const { rows } = await postgre.query("select * from books")
             res.json({msg: "OK", data: rows})
         } catch (error) {
