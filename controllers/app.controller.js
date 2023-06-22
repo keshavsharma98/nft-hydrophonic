@@ -4,6 +4,9 @@ const bcrypt = require('bcrypt');
 
            
 const appController = {
+    Hello: (req,res)=> {
+        res.status(200).json({msg: "Heloo!!"});
+    },
     signUp: async(req,res) => {
         try{
             const { rows } = await db.query("select * from pg_user_info where username = $1", [req.body.username]);
