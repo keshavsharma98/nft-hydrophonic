@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
            
 const appController = {
     Hello: (req,res)=> {
-        res.status(200).json({msg: "Heloo!!"});
+        res.status(200).json({msg: "Hello!!", data: req.body});
     },
     signUp: async(req,res) => {
         try{
