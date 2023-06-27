@@ -228,7 +228,7 @@ const appController = {
 
       const storageRef = firebaseStorage.ref(
         defaultStorage,
-        `notification-images/${req.file.originalname}`
+        `notification-images/${new Date().toISOString()}--${req.file.originalname}`
       );
       const uploadTask = firebaseStorage.uploadBytesResumable(
         storageRef,
