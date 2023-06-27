@@ -228,7 +228,9 @@ const appController = {
 
       const storageRef = firebaseStorage.ref(
         defaultStorage,
-        `notification-images/${new Date().toISOString()}--${req.file.originalname}`
+        `notification-images/${new Date().toISOString()}--${
+          req.file.originalname
+        }`
       );
       const uploadTask = firebaseStorage.uploadBytesResumable(
         storageRef,
@@ -279,7 +281,7 @@ const appController = {
                   notification_id,
                 },
                 topic: "topic",
-                tokens: [reg_ids['rows'][0].user_tokens],
+                tokens: [reg_ids["rows"][0].user_tokens],
               };
 
               messaging
@@ -306,7 +308,7 @@ const appController = {
       const sql =
         "Select id,diseases_type,photo_url from diseases where user_id = $1";
 
-      const { rows } = db.query(sql, [req.params.id]);
+      const { rows } = await db.query(sql, [req.params.id]);
 
       res.json({ msg: "OK", data: rows[0] });
     } catch (error) {
@@ -319,7 +321,7 @@ const appController = {
     try {
       const sql = "Select * from diseases where user_id = $1";
 
-      var { rows } = db.query(sql, [req.params.id]);
+      var { rows } = await db.query(sql, [req.params.id]);
 
       switch (rows[0].diseases_type) {
         case "Tip Burn":
