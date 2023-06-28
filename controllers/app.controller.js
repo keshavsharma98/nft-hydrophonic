@@ -296,11 +296,11 @@ const appController = {
                 },
                 data: data,
               };
-
+              console.log("CONFIG:-> ",JSON.stringify(config))
               axios
                 .request(config)
                 .then((response) => {
-                  console.log(JSON.stringify(response.data));
+                  console.log("RESPONSE->",JSON.stringify(response.data));
                 })
                 .catch((error) => {
                   console.log(error);
