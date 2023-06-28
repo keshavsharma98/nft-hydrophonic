@@ -297,13 +297,13 @@ const appController = {
                 data: data,
               };
               console.log("CONFIG:-> ",JSON.stringify(config))
-              axios
+              await axios
                 .request(config)
                 .then((response) => {
                   console.log("RESPONSE->",JSON.stringify(response.data));
                 })
                 .catch((error) => {
-                  console.log(error);
+                  console.log("ERROR->",error);
                 });
 
               // const messaging = app.messaging();
