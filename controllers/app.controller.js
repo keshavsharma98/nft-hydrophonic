@@ -310,7 +310,7 @@ const appController = {
 
       const { rows } = await db.query(sql, [req.params.id]);
 
-      res.json({ msg: "OK", data: rows[0] });
+      res.json({ msg: "OK", data: rows });
     } catch (error) {
       console.error(error);
       res.status(500).json({ msg: "Internal Server Error" });
