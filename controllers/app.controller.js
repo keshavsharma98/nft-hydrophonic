@@ -6,6 +6,7 @@ var serviceAccount = require("../nft-hydrophonic-firebase-adminsdk-ucnaz-67189a7
 const firebaseAdmin = require("firebase-admin");
 var firebase = require("firebase/app");
 const firebaseStorage = require("firebase/storage");
+const axios = require("axios");
 
 firebaseAdmin.initializeApp({
   credential: firebaseAdmin.credential.cert(serviceAccount),
@@ -271,27 +272,61 @@ const appController = {
 
               var reg_ids = await db.query(sql2, [user_id]);
               var notification_id = rows[0]["id"].toString();
-              const messaging = app.messaging();
-              var payload = {
+
+              let data = JSON.stringify({
                 notification: {
-                  title: "Disease Found",
+                  title: "New Diseases Found",
                   body: "Actions are required",
                 },
                 data: {
                   notification_id,
                 },
-                topic: "topic",
-                tokens: [reg_ids["rows"][0].user_tokens],
+                project_id: "nft-hydrophonic",
+                to: reg_ids.rows[0].user_tokens,
+              });
+
+              let config = {
+                method: "post",
+                maxBodyLength: Infinity,
+                url: "https://fcm.googleapis.com/fcm/send",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization:
+                    "Bearer AAAAAMs4u70:APA91bGyWgV1r2I4RflLiVjG5-hoxCLtY8Gvmd23HIpjiaZYOh_7EeJ7IGcKOk-9QVbs0OaZzYTb14p2mRk24I4Xl0LKgZd9FPU2YeClAcRQsTaxOSiLbsJgDdUwYgogsOrY4OQqB5y9",
+                },
+                data: data,
               };
 
-              messaging
-                .sendEachForMulticast(payload)
-                .then((result) => {
-                  console.log(result);
+              axios
+                .request(config)
+                .then((response) => {
+                  console.log(JSON.stringify(response.data));
                 })
                 .catch((error) => {
-                  console.log("Error sending message:", error);
+                  console.log(error);
                 });
+
+              // const messaging = app.messaging();
+              // var payload = {
+              //   notification: {
+              //     title: "Disease Found",
+              //     body: "Actions are required",
+              //   },
+              //   data: {
+              //     notification_id,
+              //   },
+              //   topic: "topic",
+              //   tokens: [reg_ids["rows"][0].user_tokens],
+              // };
+
+              // messaging
+              //   .sendEachForMulticast(payload)
+              //   .then((result) => {
+              //     console.log(result);
+              //   })
+              //   .catch((error) => {
+              //     console.log("Error sending message:", error);
+              //   });
 
               res.json({ msg: "Success", data: rows });
             });
