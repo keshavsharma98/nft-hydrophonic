@@ -319,7 +319,7 @@ const appController = {
 
   getNotificationById: async (req, res) => {
     try {
-      const sql = "Select * from diseases where user_id = $1";
+      const sql = "Select * from diseases where id = $1";
 
       var { rows } = await db.query(sql, [req.params.id]);
 
